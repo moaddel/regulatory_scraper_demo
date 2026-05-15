@@ -1,0 +1,8 @@
+playwright
+httpx
+beautifulsoup4
+lxml
+pandas
+tenacity
+aiofiles
+tqdm
