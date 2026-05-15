@@ -1,7 +1,7 @@
 [
   {
-    "name": "TestPDFSite",
-    "start_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-    "allowed_extensions": [".pdf"]
+    "name": "W3CTestSite",
+    "start_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/",
+    "allowed_extensions": [".pdf", ".xlsx"]
   }
 ]

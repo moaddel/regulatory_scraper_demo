@@ -2,7 +2,7 @@ import csv
 from datetime import datetime
 
 def save_manifest(data):
-    path = "../output/manifest.csv"
+    path = "../RegulatoryScraper/output/manifest.csv"
 
     with open(path, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=[

@@ -1,9 +1,9 @@
-OUTPUT_DIR = "../output"
-LOG_DIR = "../logs"
+import json
+import os
 
-REQUEST_DELAY = 1
-MAX_RETRIES = 3
+def load_sources():
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(base_dir, "..", "config", "sources.json")
 
-HEADERS = {
-    "User-Agent": "Mozilla/5.0"
-}
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)

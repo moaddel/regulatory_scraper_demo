@@ -2,33 +2,27 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
-def crawl_site(source):
-    url = source["start_url"]
-    allowed = source["allowed_extensions"]
 
-    results = []
+def extract_links(url, allowed_extensions):
+    res = requests.get(url, timeout=10)
 
-    try:
-        r = requests.get(url, timeout=10)
-        soup = BeautifulSoup(r.text, "html.parser")
+    soup = BeautifulSoup(res.text, "html.parser")
 
-        links = soup.find_all("a")
+    links = []
 
-        for link in links:
-            href = link.get("href")
-            if not href:
-                continue
+    for a in soup.find_all("a", href=True):
+        full_url = urljoin(url, a["href"])
 
-            full_url = urljoin(url, href)
+        if any(full_url.endswith(ext) for ext in allowed_extensions):
+            links.append(full_url)
 
-            if any(full_url.endswith(ext) for ext in allowed):
-                results.append({
-                    "source": source["name"],
-                    "title": link.text.strip(),
-                    "url": full_url
-                })
+    return links
 
-    except Exception as e:
-        print(f"Error crawling {url}: {e}")
 
-    return results
+def crawl_site(site):
+    links = extract_links(
+        site["start_url"],
+        site["allowed_extensions"]
+    )
+
+    return links
