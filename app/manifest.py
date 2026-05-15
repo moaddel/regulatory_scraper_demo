@@ -1,16 +1,22 @@
 import csv
+import os
 from datetime import datetime
 
-def save_manifest(data):
-    path = "../RegulatoryScraper/output/manifest.csv"
 
-    with open(path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=[
-            "source", "title", "url", "download_date"
+def save_manifest(rows, filename="output/manifest.csv"):
+
+    os.makedirs("output", exist_ok=True)
+
+    with open(filename, "w", newline="", encoding="utf-8") as f:
+
+        writer = csv.writer(f)
+
+        writer.writerow([
+            "source",
+            "url",
+            "local_path",
+            "download_date"
         ])
 
-        writer.writeheader()
-
-        for row in data:
-            row["download_date"] = datetime.now().isoformat()
+        for row in rows:
             writer.writerow(row)

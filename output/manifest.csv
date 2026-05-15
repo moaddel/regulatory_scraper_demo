@@ -1,1 +1,2 @@
-source,title,url,download_date
+source,url,local_path,download_date
+DummyPDF,https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf,output\dummy.pdf

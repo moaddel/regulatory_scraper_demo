@@ -4,6 +4,12 @@ from urllib.parse import urljoin
 
 
 def extract_links(url, allowed_extensions):
+
+
+    if any(url.endswith(ext) for ext in allowed_extensions):
+        return [url]
+
+
     res = requests.get(url, timeout=10)
 
     soup = BeautifulSoup(res.text, "html.parser")

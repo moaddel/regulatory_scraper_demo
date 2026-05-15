@@ -1,16 +1,18 @@
 import os
-import httpx
-import hashlib
+import requests
 
-async def download_file(url, path):
-    os.makedirs(os.path.dirname(path), exist_ok=True)
 
-    async with httpx.AsyncClient(timeout=60) as client:
-        r = await client.get(url)
+def download_file(url, output_folder="output"):
+    os.makedirs(output_folder, exist_ok=True)
 
-    content = r.content
+    filename = url.split("/")[-1]
 
-    with open(path, "wb") as f:
-        f.write(content)
+    filepath = os.path.join(output_folder, filename)
 
-    return hashlib.md5(content).hexdigest()
+    response = requests.get(url, stream=True)
+
+    with open(filepath, "wb") as f:
+        for chunk in response.iter_content(chunk_size=8192):
+            f.write(chunk)
+
+    return filepath
