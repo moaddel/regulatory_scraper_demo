@@ -1,14 +1,17 @@
+import logging
+
 from crawler import crawl_site
 from config import load_sources
 from downloader import download_file
 from manifest import save_manifest
 
 
+logging.basicConfig(level=logging.INFO)
+
+
 def main():
 
     sources = load_sources()
-
-    all_results = []
 
     manifest_rows = []
 
@@ -20,17 +23,19 @@ def main():
 
         for file_url in results:
 
-            saved_path = download_file(file_url)
+            saved_path, skipped = download_file(file_url)
 
-            print(f"Downloaded: {saved_path}")
+            if skipped:
+                print(f"Skipped (already exists): {saved_path}")
+            else:
+                print(f"Downloaded: {saved_path}")
+                logging.info(f"Downloaded: {saved_path}")
 
             manifest_rows.append([
                 source["name"],
                 file_url,
                 saved_path
             ])
-
-        all_results.extend(results)
 
     save_manifest(manifest_rows)
 
